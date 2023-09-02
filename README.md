@@ -15,7 +15,7 @@ offer different possible trades, and within a type, each individual villager ent
 and sometimes specific items can vary greatly. RLCraft is based off of Minecraft version 1.12.2 and uses an older system
 of villagers compared to the most recent Minecraft versions.
 
-Librarians are guaranteed exactly 3 trades for an **Enchanted Book**. This is an item associated with a particular
+Librarians are guaranteed exactly 3 trade slots for an **Enchanted Book**. This is an item associated with a particular
 **Enchantment** (or **Enchant** for short), a special modifier that can be applied to compatible items, that enhances
 various aspects of them
 (ranging anywhere from efficacy of the item, to longevity of it, to special added effects). Each Enchanted Book slot
@@ -38,6 +38,8 @@ the Enchantment will no longer be allowed to be applied. In RLCraft, this is not
 Enchanted Book through a Disenchantment Table to reset its anvil cost while preserving the level (also the limit based
 on cost reached is removed).
 
+A final mechanic to mention— you can reroll the trades a Librarian offers through a process known as **Zombie Purification** (**Zombie Curing**). This also allows you to convert Cartographer villagers into Librarians. In short, by turning a villager into a zombie and then curing it, the data is reset (and the villager type may change to one with the same apron type). After a villager is reset, you can re-progress it and have new trades rolled.
+
 For more resources on 1.12.2 villagers, I would recommend an archive of the old Minecraft Gamepedia
 page: https://web.archive.org/web/20190106161728/https://minecraft.gamepedia.com/Trading
 
@@ -48,7 +50,7 @@ many possible Enchants to get, you can easily wind up going through a ludicrous 
 find sources for the Enchants you are looking for.
 
 The purpose of this tool is to help track Librarians and their Enchanted Books. Specifically, there are two aspects of
-each Enchant type it focuses on: the **highest level** possessed of it, and the **best rate** available for it.
+each Enchant type it focuses on: the **highest level** possessed of it, and the **best rate** available for it. In addition to keeping track of these values and which villager has what, the program provides functionality for checking how useful a Librarian would be to add, as well as informing when a villager has been functionally replaced and no longer contributes any bests.
 
 **Rate** refers to the proportional cost between Enchant level and Emeralds. This is significant because perhaps you
 have Sharpness 5 available for 64 Emeralds, and Sharpness 3 available for 11 Emeralds. For a total cost of 44 Emeralds,
@@ -102,6 +104,7 @@ which is more scarce between XP and Emeralds).
 ### add \<villager_name>, \<cost> \<enchant_name>, ..
 
 * Adds a villager with the corresponding data. Make sure that exactly all **three** enchants are provided
+* What to name villagers depends on your use case. Personally, I collect Librarians in a grid formation and refer to them based on a row-column system ie a1, a2, b1, b2, etc. The intention is for a name that is sufficient to identify them & know their location.
 * Also runs a check for every enchant added with the same style as the check command as described above
 * A notification will be given after updating the data if any villager(s) no longer contribute any best values
 
