@@ -10,6 +10,7 @@ def refresh_display(msg=''):
           'check <cost> <enchant>, ..; '
           'villagers; '
           'add <villager name>, <cost1 enchant1>, <c2 e2>, <c3 e3>; '
+          'rename <villager name>, <new villager name>; '
           'remove <villager name>\n')  # Header
     if msg:
         print(msg + '\n')
@@ -220,11 +221,12 @@ def replace(dict_name, villager_name, enchant_name, level, cost):
 
     # Set new values
     prev_level = best_dict['level']
+    full_enchant_name = f"{enchant_name} {level}"
     prev_full_enchant_name = f"{enchant_name} {prev_level}"
     best_dict['level'] = level
     best_dict['cost'] = cost
     prev_villager = best_dict['villager_name']
-    if villager_name != prev_villager:
+    if prev_villager != villager_name or prev_villager == villager_name and full_enchant_name != prev_full_enchant_name:
         best_dict['villager_name'] = villager_name
         for enchant, value in villagers[prev_villager].items():  # Unset previous villager's 'best' bool
             if enchant == prev_full_enchant_name:

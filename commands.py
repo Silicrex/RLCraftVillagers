@@ -49,11 +49,11 @@ def check_cmd(args):
     parsed = ' '.join(args).split(', ')
     if not (enchant_list := get_enchant_list(parsed)):
         return
+    refresh_display()
     for enchant_data in enchant_list:
         enchant_name = enchant_data['name']
         level = enchant_data['level']
         cost = enchant_data['cost']
-        refresh_display()
         if enchant_name not in enchants:
             print(f'{enchant_name.title()} {level} is a new enchant!\n')
             continue
@@ -131,7 +131,8 @@ def add_cmd(args):
 
     # Iterate over enchants, perform comparisons, and update data
     refresh_display()
-    villager = {}
+    villagers[villager_name] = {}
+    villager = villagers[villager_name]
     replaced_villagers = []  # To check for if still contributing a best after update
     new_enchant = False
     for enchant_data in enchant_list:
@@ -139,8 +140,9 @@ def add_cmd(args):
         level = enchant_data['level']
         cost = enchant_data['cost']
         full_enchant_name = f"{enchant_name} {level}"
-        villager.update({full_enchant_name: {'is_best_level': False, 'is_best_rate': False, 'cost': cost}})
-        # False is a default value
+        if full_enchant_name not in villager:  # In case duplicate on same villager
+            villager.update({full_enchant_name: {'is_best_level': False, 'is_best_rate': False, 'cost': cost}})
+            # False is a default value
 
         # New enchant
         if enchant_name not in enchants:
@@ -157,15 +159,15 @@ def add_cmd(args):
         if check_best_level(enchant_name, level, cost):
             villager[full_enchant_name]['is_best_level'] = True
             prev_villager = replace_best_level(villager_name, enchant_name, level, cost)
-            if prev_villager not in replaced_villagers:
+            if prev_villager not in replaced_villagers and prev_villager != villager_name:
                 replaced_villagers.append(prev_villager)
         if check_best_rate(enchant_name, level, cost):
             villager[full_enchant_name]['is_best_rate'] = True
             prev_villager = replace_best_rate(villager_name, enchant_name, level, cost)
-            if prev_villager not in replaced_villagers:
+            if prev_villager not in replaced_villagers and prev_villager != villager_name:
                 replaced_villagers.append(prev_villager)
         print()
-    villagers.update({villager_name: villager})
+    print(f'Successfully added villager {villager_name}!\n')
 
     unused_villager = False
     for replaced_villager in replaced_villagers:
@@ -181,7 +183,40 @@ def add_cmd(args):
     update()
 
 
+def rename_cmd(args):
+    if not args:
+        refresh_display('Missing args')
+        return
+    villagers = DB['villagers']
+    enchants = DB['enchants']
+    parsed = ' '.join(args).split(', ')
+    if len(parsed) != 2:
+        refresh_display('Format like rename <villager_name>, <new_villager_name>')
+        return
+    villager_name = parsed[0]
+    new_villager_name = parsed[1]
+    if villager_name not in villagers:
+        refresh_display('Villager not found')
+        return
+    if new_villager_name in villagers:
+        refresh_display('That name is already in use')
+        return
+    villagers[new_villager_name] = villagers[villager_name]
+    for full_enchant_name, data in villagers[villager_name].items():
+        enchant_name = get_enchant_name(full_enchant_name.split())
+        if data['is_best_level']:
+            enchants[enchant_name]['best_level']['villager_name'] = new_villager_name
+        if data['is_best_rate']:
+            enchants[enchant_name]['best_rate']['villager_name'] = new_villager_name
+    villagers.pop(villager_name)
+    refresh_display(f'Successfully renamed {villager_name} to {new_villager_name}!')
+    update()
+
+
 def remove_cmd(args):
+    if not args:
+        refresh_display('Missing arg')
+        return
     villager_name = ' '.join(args)
     villagers = DB['villagers']
     if villager_name not in villagers:
@@ -198,6 +233,8 @@ def remove_cmd(args):
     refresh_display()
     for full_enchant_name, data in villagers[villager_name].items():
         enchant_name = get_enchant_name(full_enchant_name.split())
+        if enchant_name not in enchants:  # Was already deleted from a duplicate enchant type on this villager
+            continue
         if data['is_best_level']:
             if not (level_res := get_enchant_best_level(other_villager_names, enchant_name)):
                 enchants.pop(enchant_name)  # No villager with this enchant is left
