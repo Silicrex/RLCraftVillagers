@@ -3,6 +3,10 @@
 This is a **Command Line Interface (CLI)** organization tool used for tracking Librarians and their Enchants in the
 Minecraft modpack **RLCraft**.
 
+1. [Game Mechanics](#game-mechanics)  
+2. [Purpose](#purpose)  
+3. [Commands](#commands) 
+
 ## Game Mechanics
 
 **Librarians** are a type of **villager**, which is a type of mob (NPC) in **Minecraft**. Villagers offer **trades**
