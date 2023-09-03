@@ -89,7 +89,7 @@ which is more scarce between XP and Emeralds).
 
 * Takes any number of comma-separated costs & enchant names. For each pair, checks against the current inventory to see
   if that enchant trade would be new or beat any of the current bests in terms of level and/or rate
-* Each enchant is printed in two sections— the **best level** evaluation and **best rate** evaluation. For quick
+* Each enchant is printed in two sections (aside from new enchants)— the **best level** evaluation and **best rate** evaluation. For quick
   reference, there are three types of indicators printed (or, with a lack of a print) at the start of each:
     * (none) — Given trade does not beat any current values
     * ! — Given trade is a new best for the corresponding category
