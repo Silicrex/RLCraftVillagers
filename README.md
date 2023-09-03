@@ -103,7 +103,7 @@ which is more scarce between XP and Emeralds).
 
 ### add \<villager_name>, \<cost> \<enchant_name>, ..
 
-* Adds a villager with the corresponding data. Make sure that exactly all **three** enchants are provided
+* Adds a villager with the corresponding data. Make sure that exactly all **three** enchants are provided. It's intended to be used on Librarians with all their trades unlocked, but if you want to add a villager that is incomplete, you could put dummy values for the other slots and delete/re-add the villager in the future to update its enchants
 * What to name villagers depends on your use case. Personally, I collect Librarians in a grid formation and refer to them based on a row-column system ie a1, a2, b1, b2, etc. The intention is for a name that is sufficient to identify them & know their location.
 * Also runs a check for every enchant added with the same style as the check command as described above
 * A notification will be given after updating the data if any villager(s) no longer contribute any best values
